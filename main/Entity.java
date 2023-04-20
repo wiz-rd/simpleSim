@@ -23,6 +23,9 @@ public class Entity {
 	String name = ("ID: " + stats.nextInt(10001));
 	Entity target = null;
 	
+	/**
+	 * Initializes the Entity and prints their information out to console for debugging
+	 */
 	public Entity() {
 		if (pacifist) {
 			this.color = Color.white;
@@ -30,11 +33,21 @@ public class Entity {
 		System.out.println(name + " health : " + health + " damage : " + damage + " size : " + size + " pacifist: " + pacifist);
 	}
 	
+	/**
+	 * Intended to heal the entity by the given amount. I am unsure if it is used, though
+	 * @param amount the amount to heal them by
+	 * @return amount, for debugging and for running through {@link #healed(int, Entity)}
+	 */
 	public int heal(int amount) {
 		amount = damage;
 		return amount;
 	}
 	
+	/**
+	 * Damages the entity by the given amount, and shows who it was that damaged them. This allows the current entity to remove them from their friends list should them be on it
+	 * @param amount the amount to damage the entity
+	 * @param e the entity that damaged the current entity
+	 */
 	public void damaged(int amount, Entity e) {
 		this.health -= amount;
 		if (friends.contains(e)) {
@@ -43,6 +56,11 @@ public class Entity {
 		}
 	}
 	
+	/**
+	 * A method for moving along the x axis
+	 * @param loc current location
+	 * @param destx destination location
+	 */
 	public void movex(int loc, int destx) {
 		if (proximity < 50) { return; }
 		
@@ -54,6 +72,11 @@ public class Entity {
 		} else {return;}
 	}
 	
+	/**
+	 * A method for moving along the y axis
+	 * @param loc current location
+	 * @param desty destination location
+	 */
 	public void movey(int loc, int desty) {
 		if (proximity < 50) { return; }
 		
@@ -65,6 +88,11 @@ public class Entity {
 		} else {return;}
 	}
 	
+	/**
+	 * Not to be confused with {@link #heal(int)}, this is ran when the entity is the subject of being healed. There's a chance the entity performing the healing will be added to the current entity's friends
+	 * @param amount the amount to be healed by
+	 * @param actor the healer
+	 */
 	public void healed(int amount, Entity actor) {
 		this.health += amount;
 		
@@ -74,6 +102,10 @@ public class Entity {
 		
 	}
 	
+	/**
+	 * Somewhat self-explanatory; adds the entity passed through to the current entity's friends. However, it also marginally increases their collective damage output. 
+	 * @param e the entity to add
+	 */
 	public void addFriend(Entity e) {
 		if (!friends.contains(e)) {
 			friends.add(e);
@@ -81,10 +113,18 @@ public class Entity {
 		}
 	}
 	
+	/**
+	 * Sets the entity t as the current entity's target
+	 * @param t the entity to target
+	 */
 	public void setTarget(Entity t) {
 		target = t;
 	}
 	
+	/**
+	 * "Fights" the target entity, ensuring they are within close enough range to do so, and if the current entity is a pacifist, to heal them
+	 * @param t the entity to target
+	 */
 	public void fight(Entity t) {
 		if (proximity <= 50 && t.health > 0 && !pacifist) {
 			t.damaged(damage, this);
@@ -95,19 +135,34 @@ public class Entity {
 		} else { return; }
 	}
 	
+	/**
+	 * A method for if the entity was killed. Used to remove them from the board
+	 * @return self
+	 */
 	public Entity killed() {
 		return this;
 	}
 	
+	/**
+	 * Iterates the current entity's kill count by one
+	 */
 	public void kill() {
 		kills++;
 	}
 	
+	/**
+	 * Prints and returns the entity's total kills
+	 * @return kills
+	 */
 	public int killCount() {
 		System.out.println(kills);
 		return kills;
 	}
 	
+	/**
+	 * Used to print the statistics about the current entity
+	 * @return a string of the statistics
+	 */
 	public String print() {
 		return name + " current health : " + health + " starting health : " + startingHealth + " damage : " + damage + " size : " + size + " pacifist : " + pacifist + " kills : " + kills;
 	}
