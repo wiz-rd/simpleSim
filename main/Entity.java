@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * An entity to participate in the simulation. See {@link #Entity()}
+ * @author wiz-rd
+ */
 public class Entity {
 	
 	Random stats = new Random();
@@ -14,7 +18,7 @@ public class Entity {
 	int size = health/10; //size is a number from 1-30 based on their health
 	int x = stats.nextInt(751); //locations
 	int y = stats.nextInt(751);
-	int proximity = 751;
+	int proximity = 751; //temporary proximity value
 	boolean pacifist = (stats.nextInt(101) > 90); //a 10% chance of shooting only "helpful" bullets
 	int kills; //amount of killed enemies
 	ArrayList<Entity> friends = new ArrayList<Entity>();
@@ -24,7 +28,7 @@ public class Entity {
 	Entity target = null;
 	
 	/**
-	 * Initializes the Entity and prints their information out to console for debugging
+	 * Constructs the Entity and prints their information out to console for debugging
 	 */
 	public Entity() {
 		if (pacifist) {
